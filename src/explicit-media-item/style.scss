@@ -1,0 +1,143 @@
+// Main container styles - frontend specific
+.buntywp-exp-media-container {
+	position: relative;
+	margin-bottom: 20px;
+	max-width: 100%;
+
+	// Image container
+	.image-container {
+	  position: relative;
+
+	  figure {
+		margin: 0;
+
+		.uploaded-media {
+			width: 100%;
+			height: 100%;
+			display: block;
+			object-fit: cover;
+			box-sizing: border-box;
+		}
+
+		// Video styling
+		video.uploaded-media {
+		  background-color: #000;
+		  width: 100%;
+		}
+	  }
+	}
+	
+	// Actions area
+	.exp-media-actions {
+	  display: flex;
+	  align-items: center;
+	  padding: 8px 0;
+	  
+	  // Like button
+	  .exp-media-like-button {
+		background: transparent;
+		border: none;
+		padding: 6px;
+		margin: 0;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 8px;
+		transition: transform 0.15s ease;
+		position: relative;
+		border-radius: 50%;
+		
+		&:hover {
+		  background-color: rgba(0, 0, 0, 0.05);
+		  transform: scale(1.1);
+		}
+		
+		&:focus {
+		  outline: none;
+		}
+		
+		.heart-icon {
+		  stroke: #262626;
+		  transition: all 0.2s ease;
+		  position: relative;
+		  z-index: 1;
+		}
+		
+		&.liked .heart-icon {
+		  fill: #e0245e;
+		  stroke: #e0245e;
+		}
+	  }
+	  
+	  // Like counter
+	  .exp-media-like-count {
+		font-weight: 600;
+		color: #262626;
+		font-size: 14px;
+	  }
+	}
+  }
+  
+  // Animation for Twitter-like effect
+  @keyframes heartScale {
+	0% {
+	  transform: scale(1);
+	}
+	50% {
+	  transform: scale(0);
+	}
+	100% {
+	  transform: scale(1);
+	}
+  }
+  
+  @keyframes heartBurst {
+	0% {
+	  transform: scale(0);
+	}
+	50% {
+	  transform: scale(1.6);
+	}
+	100% {
+	  transform: scale(1);
+	}
+  }
+  
+  .exp-media-like-button.twitter-animation .heart-icon {
+	animation: heartScale 0.3s forwards;
+  }
+  
+  .exp-media-like-button.twitter-animation.liked .heart-icon {
+	animation: heartBurst 0.4s forwards;
+  }
+  
+  // Particle effects
+  .heart-particle {
+	position: absolute;
+	background: #e0245e;
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 0;
+	opacity: 0;
+  }
+  
+  @keyframes particleFadeOut {
+	0% {
+	  opacity: 0.8;
+	  transform: translate(0, 0) scale(1);
+	}
+	100% {
+	  opacity: 0;
+	  transform: translate(var(--tx), var(--ty)) scale(0);
+	}
+  }
+  
+  // Responsive styles
+  @media (max-width: 600px) {
+	.buntywp-exp-media-container {
+	  .image-container figure .uploaded-media {
+		max-height: 400px;
+	  }
+	}
+  }
