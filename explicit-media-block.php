@@ -103,3 +103,25 @@ function btwp_exp_media_handle_likes() {
 }
 
 add_action( 'wp_ajax_save_media_likes', 'btwp_exp_media_handle_likes' );
+
+/**
+ * Convert hexadecimal color to RGB.
+ *
+ * @param string $hex Hexadecimal color code.
+ * @return string RGB color code.
+ */
+function btwp_exp_media_hex2rgb( $hex ) {
+	$hex = str_replace( '#', '', $hex );
+
+	if ( strlen( $hex ) == 3 ) {
+		$r = hexdec( substr( $hex, 0, 1 ) . substr( $hex, 0, 1 ) );
+		$g = hexdec( substr( $hex, 1, 1 ) . substr( $hex, 1, 1 ) );
+		$b = hexdec( substr( $hex, 2, 1 ) . substr( $hex, 2, 1 ) );
+	} else {
+		$r = hexdec( substr( $hex, 0, 2 ) );
+		$g = hexdec( substr( $hex, 2, 2 ) );
+		$b = hexdec( substr( $hex, 4, 2 ) );
+	}
+
+	return array( $r, $g, $b );
+}

@@ -31,8 +31,6 @@ if ( ! empty( $meta_context ) ) {
 $context['liked']  = get_user_meta( get_current_user_id(), $meta_key, true );
 $context['postId'] = $post->ID;
 
-echo '<pre>';print_r($attributes);echo '</pre>';
-
 $attributes_style = $attributes['style']['dimensions'];
 $inline_style     = '';
 
@@ -59,7 +57,9 @@ foreach ( explode( ';', $style_string ) as $style ) {
 	$style_array[ trim( $key ) ] = trim( $value );
 }
 
-$border_style = array();
+
+$border_style               = array();
+$border_style['object-fit'] = $attributes['scale'];
 if ( isset( $style_array['border-radius'] ) ) {
 	$border_style['border-radius'] = $style_array['border-radius'];
 	unset( $style_array['border-radius'] );
@@ -105,11 +105,12 @@ $duotone_filter = 'filter-' . md5( wp_json_encode( $duotone ) );
 			case 'image':
 				$srcset = wp_get_attachment_image_srcset( $attributes['mediaId'] );
 				echo wp_sprintf(
-					'<img src="%1$s" class="uploaded-media %4$s" loading="lazy" srcset="%2$s" style="%3$s" />',
+					'<img src="%1$s" class="uploaded-media %4$s" loading="lazy" srcset="%2$s" style="%3$s" sizes="%5$s" />',
 					esc_url( $attributes['mediaUrl'] ),
 					esc_attr( $srcset ),
 					esc_attr( $border_inline_style ),
-					esc_attr( $duotone_filter )
+					esc_attr( $duotone_filter ),
+					esc_attr( wp_calculate_image_sizes( 'full', '', '', $attributes['mediaId'] ) )
 				);
 				break;
 			case 'video':
@@ -123,54 +124,45 @@ $duotone_filter = 'filter-' . md5( wp_json_encode( $duotone ) );
 		}
 
 		echo '</figure></div></div>';
-			if (!empty($duotone)) {
-				// Output the SVG filter if duotone is set
-				add_action('wp_footer', function() use ($duotone, $duotone_filter) {
-					$colors = is_array($duotone) ? $duotone : [];
-					if (count($colors) === 2) {
+		if ( ! empty( $duotone ) ) {
+
+			add_action(
+				'wp_footer',
+				function () use ( $duotone, $duotone_filter ) {
+					$colors = is_array( $duotone ) ? $duotone : array();
+					if ( count( $colors ) === 2 ) {
 						$svg_id = $duotone_filter;
 						echo '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;">';
 						echo '<defs>';
-						echo '<filter id="' . esc_attr($svg_id) . '">';
+						echo '<filter id="' . esc_attr( $svg_id ) . '">';
 						echo '<feColorMatrix type="matrix" values=".33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 1 0"></feColorMatrix>';
 						echo '<feComponentTransfer color-interpolation-filters="sRGB">';
-						echo '<feFuncR type="table" tableValues="' . esc_attr(hex2rgb($colors[0])[0] / 255) . ' ' . esc_attr(hex2rgb($colors[1])[0] / 255) . '"></feFuncR>';
-						echo '<feFuncG type="table" tableValues="' . esc_attr(hex2rgb($colors[0])[1] / 255) . ' ' . esc_attr(hex2rgb($colors[1])[1] / 255) . '"></feFuncG>';
-						echo '<feFuncB type="table" tableValues="' . esc_attr(hex2rgb($colors[0])[2] / 255) . ' ' . esc_attr(hex2rgb($colors[1])[2] / 255) . '"></feFuncB>';
+						echo '<feFuncR type="table" tableValues="' . esc_attr( btwp_exp_media_hex2rgb( $colors[0] )[0] / 255 ) . ' ' . esc_attr( btwp_exp_media_hex2rgb( $colors[1] )[0] / 255 ) . '"></feFuncR>';
+						echo '<feFuncG type="table" tableValues="' . esc_attr( btwp_exp_media_hex2rgb( $colors[0] )[1] / 255 ) . ' ' . esc_attr( btwp_exp_media_hex2rgb( $colors[1] )[1] / 255 ) . '"></feFuncG>';
+						echo '<feFuncB type="table" tableValues="' . esc_attr( btwp_exp_media_hex2rgb( $colors[0] )[2] / 255 ) . ' ' . esc_attr( btwp_exp_media_hex2rgb( $colors[1] )[2] / 255 ) . '"></feFuncB>';
 						echo '</feComponentTransfer>';
 						echo '</filter>';
 						echo '</defs>';
 						echo '</svg>';
 					}
-				}, 99);
-			}
+				},
+				99
+			);
+		}
 
-			add_action('wp_head', function() use ($duotone_filter) {
-				if (!empty($duotone_filter)) {
+		add_action(
+			'wp_head',
+			function () use ( $duotone_filter ) {
+				if ( ! empty( $duotone_filter ) ) {
 					echo '<style>
-					.' . esc_attr($duotone_filter) . ' {
-						filter: url(#' . esc_attr($duotone_filter) . ');
-					}
-					</style>';
+				.' . esc_attr( $duotone_filter ) . ' {
+					filter: url(#' . esc_attr( $duotone_filter ) . ');
 				}
-			}, 99);
-
-			// Helper function to convert hex color to RGB array
-			function hex2rgb($hex) {
-				$hex = str_replace('#', '', $hex);
-				
-				if(strlen($hex) == 3) {
-					$r = hexdec(substr($hex, 0, 1).substr($hex, 0, 1));
-					$g = hexdec(substr($hex, 1, 1).substr($hex, 1, 1));
-					$b = hexdec(substr($hex, 2, 1).substr($hex, 2, 1));
-				} else {
-					$r = hexdec(substr($hex, 0, 2));
-					$g = hexdec(substr($hex, 2, 2));
-					$b = hexdec(substr($hex, 4, 2));
+				</style>';
 				}
-				
-				return array($r, $g, $b);
-			}
+			},
+			99
+		);
 
 		?>
 		<div class="exp-media-actions">

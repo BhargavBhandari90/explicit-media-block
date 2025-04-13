@@ -64,6 +64,10 @@
 		},
 		"style": {
 			"type": "string"
+		},
+		"scale": {
+			"type": "string",
+			"default": "cover"
 		}
 	},
 	"selectors": {

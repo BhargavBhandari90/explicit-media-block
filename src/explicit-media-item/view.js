@@ -14,9 +14,11 @@ const { state } = store( 'buntywp/explicit-media', {
 	},
 	actions: {
 		toggleLike: () => {
-			const context     = getContext();
-			context.liked     = context.liked ? false : true;
-			context.likeCount = context.liked ? Number( context.likeCount + 1) : Number( context.likeCount - 1 );
+			const context = getContext();
+			context.liked = context.liked ? false : true;
+			context.likeCount = context.liked
+				? Number( context.likeCount + 1 )
+				: Number( context.likeCount - 1 );
 
 			saveContextToServer( context );
 		},
@@ -32,7 +34,7 @@ const { state } = store( 'buntywp/explicit-media', {
  * @param {object} context Block Context.
  */
 function saveContextToServer( context ) {
-	console.log(context);
+	console.log( context );
 	fetch( state.ajaxUrl, {
 		method: 'POST',
 		headers: {
@@ -44,21 +46,21 @@ function saveContextToServer( context ) {
 			context: JSON.stringify( context ),
 		} ),
 	} )
-	.then( ( response ) => response.json() )
-	.then( ( data ) => {
-		console.log( 'Like saved:', data );
-	} )
-	.catch( ( error ) => {
-		console.error( 'Error saving Like:', error );
-	} );
+		.then( ( response ) => response.json() )
+		.then( ( data ) => {
+			console.log( 'Like saved:', data );
+		} )
+		.catch( ( error ) => {
+			console.error( 'Error saving Like:', error );
+		} );
 }
 
-function formatNumber(num) {
+function formatNumber( num ) {
 	if ( num < 1000 ) {
-	  return num.toString();
+		return num.toString();
 	} else if ( num < 1000000 ) {
-	  return ( num / 1000 ).toFixed(1) + 'K';
+		return ( num / 1000 ).toFixed( 1 ) + 'K';
 	} else {
-	  return ( num / 1000000 ).toFixed(1) + 'M';
+		return ( num / 1000000 ).toFixed( 1 ) + 'M';
 	}
 }

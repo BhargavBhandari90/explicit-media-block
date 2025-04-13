@@ -116,6 +116,10 @@ return array(
 			),
 			'style' => array(
 				'type' => 'string'
+			),
+			'scale' => array(
+				'type' => 'string',
+				'default' => 'cover'
 			)
 		),
 		'selectors' => array(
