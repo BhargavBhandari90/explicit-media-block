@@ -5,148 +5,152 @@
 	max-width: 100%;
 
 	.image-container {
-	  position: relative;
-	  margin-bottom: 8px;
+		position: relative;
+		margin-bottom: 8px;
 
-	  .upload-button {
-		&.centered {
-		  position: absolute;
-		  top: 50%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  z-index: 10;
+		.upload-button {
+			&.centered {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 10;
+			}
+
+			&.hover-visible {
+				position: absolute;
+				top: 50%;
+				right: 50%;
+				opacity: 0;
+				transition: opacity 0.2s ease;
+			}
 		}
 
-		&.hover-visible {
-		  position: absolute;
-		  top: 50%;
-		  right: 50%;
-		  opacity: 0;
-		  transition: opacity 0.2s ease;
+		&:hover {
+			.hover-visible {
+				opacity: 1;
+				z-index: 1;
+			}
 		}
-	  }
 
-	  &:hover {
-		.hover-visible {
-		  opacity: 1;
-		  z-index: 1;
+		// Media styling
+		figure {
+			margin: 0;
+
+			// Video specific styles
+			video.uploaded-media {
+				background-color: #000;
+			}
 		}
-	  }
-
-	  // Media styling
-	  figure {
-		margin: 0;
-
-		// Video specific styles
-		video.uploaded-media {
-		  background-color: #000;
-		}
-	  }
 	}
 
 	// Actions container (like button area)
 	.exp-media-actions {
-	  display: flex;
-	  align-items: center;
-	  padding: 8px 0;
-
-	  .exp-media-like-button {
-		background: transparent;
-		border: none;
-		padding: 6px;
-		margin: 0;
-		cursor: pointer;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		margin-right: 8px;
-		transition: transform 0.15s ease;
-		border-radius: 50%;
+		padding: 8px 0;
 
-		&:hover {
-		  background-color: rgba(0, 0, 0, 0.05);
-		  transform: scale(1.1);
+		.exp-media-like-button {
+			background: transparent;
+			border: none;
+			padding: 6px;
+			margin: 0;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-right: 8px;
+			transition: transform 0.15s ease;
+			border-radius: 50%;
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.05);
+				transform: scale(1.1);
+			}
+
+			&:focus {
+				outline: none;
+			}
+
+			.heart-icon {
+				stroke: #262626;
+				transition: all 0.2s ease;
+			}
+
+			&.liked .heart-icon {
+				fill: #e0245e;
+				stroke: #e0245e;
+			}
 		}
 
-		&:focus {
-		  outline: none;
+		// Like count styling
+		.exp-media-like-count {
+			font-weight: 600;
+			color: #262626;
+			font-size: 14px;
 		}
-		
-		.heart-icon {
-		  stroke: #262626;
-		  transition: all 0.2s ease;
-		}
-		
-		&.liked .heart-icon {
-		  fill: #e0245e;
-		  stroke: #e0245e;
-		}
-	  }
-	  
-	  // Like count styling
-	  .exp-media-like-count {
-		font-weight: 600;
-		color: #262626;
-		font-size: 14px;
-	  }
 	}
-	
+
 	// Border and shadow support
 	&.has-border {
-	  .image-container figure {
-		border-style: solid;
-	  }
+		.image-container figure {
+			border-style: solid;
+		}
 	}
-  }
-  
-  // Twitter-like animation for like button
-  @keyframes heartScale {
+}
+
+// Twitter-like animation for like button
+@keyframes heartScale {
 	0% {
-	  transform: scale(1);
+		transform: scale(1);
 	}
+
 	50% {
-	  transform: scale(0);
+		transform: scale(0);
 	}
+
 	100% {
-	  transform: scale(1);
+		transform: scale(1);
 	}
-  }
-  
-  @keyframes heartBurst {
+}
+
+@keyframes heartBurst {
 	0% {
-	  transform: scale(0);
+		transform: scale(0);
 	}
+
 	50% {
-	  transform: scale(1.6);
+		transform: scale(1.6);
 	}
+
 	100% {
-	  transform: scale(1);
+		transform: scale(1);
 	}
-  }
-  
-  .exp-media-like-button.twitter-animation .heart-icon {
+}
+
+.exp-media-like-button.twitter-animation .heart-icon {
 	animation: heartScale 0.3s forwards;
-  }
-  
-  .exp-media-like-button.twitter-animation.liked .heart-icon {
+}
+
+.exp-media-like-button.twitter-animation.liked .heart-icon {
 	animation: heartBurst 0.4s forwards;
-  }
-  
-  // Editor-specific styles
-  .block-editor-block-list__block .buntywp-exp-media-container {
+}
+
+// Editor-specific styles
+.block-editor-block-list__block .buntywp-exp-media-container {
 	.image-container {
-	  min-height: 100px;
-	  background-color: #f7f7f7;
-	  border: 1px dashed #ddd;
-	  
-	  &:has(.uploaded-media) {
-		background-color: transparent;
-		border: none;
-	  }
+		min-height: 100px;
+		background-color: #f7f7f7;
+		border: 1px dashed #ddd;
+
+		&:has(.uploaded-media) {
+			background-color: transparent;
+			border: none;
+		}
 	}
-	
+
 	// Block controls positioning
 	.components-button.block-editor-media-placeholder__button {
-	  margin-bottom: 0;
+		margin-bottom: 0;
 	}
-  }
+}

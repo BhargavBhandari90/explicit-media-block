@@ -1,6 +1,8 @@
 import { store, getContext } from '@wordpress/interactivity';
 
 const { state } = store( 'buntywp/explicit-media', {
+	isOpen: false,
+	imageSrc: '',
 	state: {
 		get isMediaLiked() {
 			const context = getContext();
@@ -10,6 +12,14 @@ const { state } = store( 'buntywp/explicit-media', {
 		get likeCount() {
 			const context = getContext();
 			return formatNumber( context.likeCount );
+		},
+
+		get expImageSrc() {
+			console.log( 'state.imageSrc', state.imageSrc );
+			return state.imageSrc;
+		},
+		get expIsPopupOpen() {
+			return state.isOpen;
 		},
 	},
 	actions: {
@@ -22,9 +32,27 @@ const { state } = store( 'buntywp/explicit-media', {
 
 			saveContextToServer( context );
 		},
+
+		expShowLightbox: () => {
+			const context = getContext();
+			console.log( 'context', context.mediaUrl );
+			state.isOpen = true;
+			state.imageSrc = context.mediaUrl;
+		},
+
+		expHideLightbox: () => {
+			state.isOpen = false;
+			state.imageSrc = '';
+		},
 	},
 	callbacks: {
-		//
+		expSetupLightbox: () => {
+			window.addEventListener( 'keydown', ( event ) => {
+				if ( 'Escape' === event.key ) {
+					store( 'buntywp/explicit-media' ).actions.expHideLightbox();
+				}
+			} );
+		},
 	},
 } );
 
@@ -34,7 +62,6 @@ const { state } = store( 'buntywp/explicit-media', {
  * @param {object} context Block Context.
  */
 function saveContextToServer( context ) {
-	console.log( context );
 	fetch( state.ajaxUrl, {
 		method: 'POST',
 		headers: {
