@@ -111,6 +111,16 @@ add_action( 'wp_ajax_save_media_likes', 'btwp_exp_media_handle_likes' );
  * @return string RGB color code.
  */
 function btwp_exp_media_hex2rgb( $hex ) {
+
+	// If it is RGB already.
+	if ( preg_match( '/^rgb\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/i', $hex, $matches ) ) {
+		return array(
+			(int) $matches[1],
+			(int) $matches[2],
+			(int) $matches[3],
+		);
+	}
+
 	$hex = str_replace( '#', '', $hex );
 
 	if ( strlen( $hex ) == 3 ) {
@@ -125,3 +135,53 @@ function btwp_exp_media_hex2rgb( $hex ) {
 
 	return array( $r, $g, $b );
 }
+
+/**
+ * Script for closing all share popups.
+ *
+ * @return void
+ */
+function btwp_exp_media_footer_script() {
+	?>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+
+			function closeAllSharePopups() {
+				document.querySelectorAll( '.exp-share-popup' ).forEach( popup => {
+					popup.classList.add( 'hide' );
+				});
+			}
+
+			const shareButtons = document.querySelectorAll( '.exp-media-share-button' );
+
+			shareButtons.forEach( button => {
+
+				button.addEventListener( 'click', function( event ) {
+					const container = this.closest( '.buntywp-exp-media-container' );
+					const popup     = container.querySelector( '.exp-share-popup' );
+					const isHidden  = popup.classList.contains( 'hide' );
+
+					closeAllSharePopups();
+
+					// Then open this one if it was previously closed.
+					if ( isHidden ) {
+						popup.classList.remove( 'hide' );
+					}
+
+					event.stopPropagation();
+				});
+			});
+
+			document.addEventListener( 'click', function( event ) {
+
+				const isOutsideShareElements = ! event.target.closest( '.exp-media-share-button' ) && ! event.target.closest( '.exp-share-popup' );
+				if ( isOutsideShareElements ) {
+					closeAllSharePopups();
+				}
+			});
+		});
+	</script>
+	<?php
+}
+
+add_action( 'wp_footer', 'btwp_exp_media_footer_script' );

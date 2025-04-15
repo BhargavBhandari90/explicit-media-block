@@ -1,7 +1,8 @@
-import { store, getContext } from '@wordpress/interactivity';
+import { store, getContext, withScope } from '@wordpress/interactivity';
 
 const { state } = store( 'buntywp/explicit-media', {
 	isOpen: false,
+	isMediaShared: false,
 	imageSrc: '',
 	state: {
 		get isMediaLiked() {
@@ -11,19 +12,19 @@ const { state } = store( 'buntywp/explicit-media', {
 
 		get likeCount() {
 			const context = getContext();
-			return formatNumber( context.likeCount );
+			return expMediaFormatNumber( context.likeCount );
 		},
 
 		get expImageSrc() {
-			console.log( 'state.imageSrc', state.imageSrc );
 			return state.imageSrc;
 		},
+
 		get expIsPopupOpen() {
 			return state.isOpen;
 		},
 	},
 	actions: {
-		toggleLike: () => {
+		expToggleLike: () => {
 			const context = getContext();
 			context.liked = context.liked ? false : true;
 			context.likeCount = context.liked
@@ -35,7 +36,6 @@ const { state } = store( 'buntywp/explicit-media', {
 
 		expShowLightbox: () => {
 			const context = getContext();
-			console.log( 'context', context.mediaUrl );
 			state.isOpen = true;
 			state.imageSrc = context.mediaUrl;
 		},
@@ -43,6 +43,11 @@ const { state } = store( 'buntywp/explicit-media', {
 		expHideLightbox: () => {
 			state.isOpen = false;
 			state.imageSrc = '';
+		},
+
+		expToggleShare: () => {
+			const context = getContext();
+			context.isShareOpen = ! context.isShareOpen;
 		},
 	},
 	callbacks: {
@@ -82,7 +87,13 @@ function saveContextToServer( context ) {
 		} );
 }
 
-function formatNumber( num ) {
+/**
+ * Format a number for display.
+ *
+ * @param {integer} num Number to format.
+ * @returns {string} Formatted number.
+ */
+function expMediaFormatNumber( num ) {
 	if ( num < 1000 ) {
 		return num.toString();
 	} else if ( num < 1000000 ) {

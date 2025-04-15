@@ -1,4 +1,3 @@
-// Main container styles
 .buntywp-exp-media-container {
 	position: relative;
 	margin-bottom: 20px;
@@ -33,18 +32,15 @@
 			}
 		}
 
-		// Media styling
 		figure {
 			margin: 0;
 
-			// Video specific styles
 			video.uploaded-media {
 				background-color: #000;
 			}
 		}
 	}
 
-	// Actions container (like button area)
 	.exp-media-actions {
 		display: flex;
 		align-items: center;
@@ -83,7 +79,6 @@
 			}
 		}
 
-		// Like count styling
 		.exp-media-like-count {
 			font-weight: 600;
 			color: #262626;
@@ -91,7 +86,6 @@
 		}
 	}
 
-	// Border and shadow support
 	&.has-border {
 		.image-container figure {
 			border-style: solid;
@@ -99,7 +93,6 @@
 	}
 }
 
-// Twitter-like animation for like button
 @keyframes heartScale {
 	0% {
 		transform: scale(1);
@@ -136,7 +129,6 @@
 	animation: heartBurst 0.4s forwards;
 }
 
-// Editor-specific styles
 .block-editor-block-list__block .buntywp-exp-media-container {
 	.image-container {
 		min-height: 100px;
@@ -149,7 +141,6 @@
 		}
 	}
 
-	// Block controls positioning
 	.components-button.block-editor-media-placeholder__button {
 		margin-bottom: 0;
 	}

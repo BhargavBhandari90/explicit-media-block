@@ -84,8 +84,12 @@ if ( ! empty( $border_style ) ) {
 	}
 }
 
-$duotone        = $attributes['style']['color']['duotone'] ?? '';
-$duotone_filter = 'filter-' . md5( wp_json_encode( $duotone ) );
+$duotone        = ! empty( $attributes['style']['color']['duotone'] ) && $attributes['style']['color']['duotone'] != 'unset'
+	? $attributes['style']['color']['duotone']
+	: '';
+$duotone_filter = ! empty( $duotone ) ? 'filter-' . md5( wp_json_encode( $duotone ) ) : '';
+
+$context['isShareOpen'] = false;
 
 ?>
 <div
@@ -99,7 +103,7 @@ $duotone_filter = 'filter-' . md5( wp_json_encode( $duotone ) );
 
 	if ( ! empty( $attributes['mediaUrl'] ) ) {
 
-		echo '<div class="image-container"><figure ' . wp_kses_data( $updatedblock_atts ) . '>';
+		echo '<div class="image-container" id="' . esc_attr( $meta_key ) . '"><figure ' . wp_kses_data( $updatedblock_atts ) . '>';
 
 		switch ( $attributes['mediaType'] ) {
 			case 'image':
@@ -172,55 +176,86 @@ $duotone_filter = 'filter-' . md5( wp_json_encode( $duotone ) );
 				},
 				99
 			);
-		}
 
-		add_action(
-			'wp_head',
-			function () use ( $duotone_filter ) {
-				if ( ! empty( $duotone_filter ) ) {
-					echo '<style>
-				.' . esc_attr( $duotone_filter ) . ' {
-					filter: url(#' . esc_attr( $duotone_filter ) . ');
-				}
-				</style>';
-				}
-			},
-			99
-		);
+			add_action(
+				'wp_head',
+				function () use ( $duotone_filter ) {
+					if ( ! empty( $duotone_filter ) ) {
+						echo '<style>
+					.' . esc_attr( $duotone_filter ) . ' {
+						filter: url(#' . esc_attr( $duotone_filter ) . ');
+					}
+					</style>';
+					}
+				},
+				99
+			);
+		}
 
 		?>
 		<div class="exp-media-actions">
-			<button
-				data-wp-class--liked="state.isMediaLiked"
-				class="exp-media-like-button"
-				data-wp-on-async--click="actions.toggleLike"
-			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="heart-icon">
-					<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-				</svg>
-			</button>
-			<span class="exp-media-like-count" data-wp-text="state.likeCount"></span>
-			<div class="exp-media-lightbox" data-wp-class--hide="!state.expIsPopupOpen">
-				<div class="exp-media-item full-width">
-					<img data-wp-bind--src="state.expImageSrc" />
-					<button
-						type="button"
-						aria-label="<?php echo __( 'Press ESC to Cloese' ) ?>"
-						class="exp-media-remove-popup"
-						data-wp-on-async--click="actions.expHideLightbox"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 24 24"
-							width="20"
-							height="20"
-							aria-hidden="true"
-							focusable="false"
-						>
-							<path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path>
+			<div class="exp-media-action-item">
+				<button
+					data-wp-class--liked="state.isMediaLiked"
+					class="exp-media-like-button exp-media-button"
+					data-wp-on-async--click="actions.expToggleLike"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="heart-icon">
+						<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+					</svg>
+				</button>
+				<span class="exp-media-like-count" data-wp-text="state.likeCount"></span>
+			</div>
+			<div class="exp-media-action-item">
+				<button
+					class="exp-media-share-button exp-media-button"
+					data-wp-on--click="actions.expToggleShare"
+				>
+					<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M17.5 3a3.5 3.5 0 0 0-3.456 4.06L8.143 9.704a3.5 3.5 0 1 0-.01 4.6l5.91 2.65a3.5 3.5 0 1 0 .863-1.805l-5.94-2.662a3.53 3.53 0 0 0 .002-.961l5.948-2.667A3.5 3.5 0 1 0 17.5 3Z"/>
+					</svg>
+				</button>
+				<div class="exp-share-popup" data-wp-class--hide="!context.isShareOpen">
+					<button class="exp-share-option" data-share="twitter">
+						<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M13.795 10.533 20.68 2h-3.073l-5.255 6.517L7.69 2H1l7.806 10.91L1.47 22h3.074l5.705-7.07L15.31 22H22l-8.205-11.467Zm-2.38 2.95L9.97 11.464 4.36 3.627h2.31l4.528 6.317 1.443 2.02 6.018 8.409h-2.31l-4.934-6.89Z"/>
+						</svg>
+					</button>
+					<button class="exp-share-option" data-share="facebook">
+						<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+							<path fill-rule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clip-rule="evenodd"/>
+						</svg>
+					</button>
+					<button class="exp-share-option" data-share="copy">
+						<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+							<path fill-rule="evenodd" d="M18 3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1V9a4 4 0 0 0-4-4h-3a1.99 1.99 0 0 0-1 .267V5a2 2 0 0 1 2-2h7Z" clip-rule="evenodd"/>
+							<path fill-rule="evenodd" d="M8 7.054V11H4.2a2 2 0 0 1 .281-.432l2.46-2.87A2 2 0 0 1 8 7.054ZM10 7v4a2 2 0 0 1-2 2H4v6a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3Z" clip-rule="evenodd"/>
 						</svg>
 					</button>
 				</div>
+			</div>
+		</div>
+
+		<div class="exp-media-lightbox" data-wp-class--hide="!state.expIsPopupOpen">
+			<div class="exp-media-item full-width">
+				<img data-wp-bind--src="state.expImageSrc" />
+				<button
+					type="button"
+					aria-label="<?php echo __( 'Press ESC to Cloese' ); ?>"
+					class="exp-media-remove-popup"
+					data-wp-on-async--click="actions.expHideLightbox"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						width="20"
+						height="20"
+						aria-hidden="true"
+						focusable="false"
+					>
+						<path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path>
+					</svg>
+				</button>
 			</div>
 		</div>
 
