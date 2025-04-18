@@ -1,55 +1,39 @@
 === Explicit Media Block ===
-Contributors:      The WordPress Contributors
-Tags:              block
+Contributors:      bhargavbhandari90, biliplugins
+Donate link:       https://www.paypal.me/BnB90/20
+Tags:              block, media, likes, share, blocks
+Requires at least: 6.6
 Tested up to:      6.7
-Stable tag:        0.1.0
+Stable tag:        1.0.0
 License:           GPL-2.0-or-later
+Requires PHP:      7.4
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Example block scaffolded with Create Block tool.
+Add likeable, shareable media to your site with this social-style WordPress block.
 
 == Description ==
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
-
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+A WordPress block for uploading media with public likes and shareable links, turning your site into an interactive content hub.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
-
-e.g.
-
 1. Upload the plugin files to the `/wp-content/plugins/explicit-media-block` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
-
-
-== Frequently Asked Questions ==
-
-= A question that someone might have =
-
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
+2. Activate the plugin through the 'Plugins' screen in WordPress
+3. Add/Edit post pr plugin and search "Explicit Media" while searching a block
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. Search Explicit Media Block
+2. Add Explicit Media Block
+3. How it looks on frontend
+4. Like Media
+5. Share Media Link
+
+== GitHub Repo ==
+[https://github.com/BhargavBhandari90/explicit-media-block/issues](https://github.com/BhargavBhandari90/explicit-media-block/issues)
 
 == Changelog ==
 
-= 0.1.0 =
-* Release
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+= 1.0.0 =
+* Initial Release.
+* Like & Share Media.

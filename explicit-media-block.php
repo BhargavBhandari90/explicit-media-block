@@ -1,11 +1,12 @@
 <?php
 /**
  * Plugin Name:       Explicit Media Block
- * Description:       Example block scaffolded with Create Block tool.
- * Version:           0.1.0
+ * Description:       Add likeable, shareable media to your site with this social-style WordPress block.
+ * Version:           1.0.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
- * Author:            The WordPress Contributors
+ * Author:            BuntyWP
+ * Author URI:        https://biliplugins.com/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       explicit-media-block
@@ -123,7 +124,7 @@ function btwp_exp_media_hex2rgb( $hex ) {
 
 	$hex = str_replace( '#', '', $hex );
 
-	if ( strlen( $hex ) == 3 ) {
+	if ( 3 === strlen( $hex ) ) {
 		$r = hexdec( substr( $hex, 0, 1 ) . substr( $hex, 0, 1 ) );
 		$g = hexdec( substr( $hex, 1, 1 ) . substr( $hex, 1, 1 ) );
 		$b = hexdec( substr( $hex, 2, 1 ) . substr( $hex, 2, 1 ) );
@@ -135,60 +136,3 @@ function btwp_exp_media_hex2rgb( $hex ) {
 
 	return array( $r, $g, $b );
 }
-
-/**
- * Script for closing all share popups.
- *
- * @return void
- */
-function btwp_exp_media_footer_script() {
-	?>
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-
-			function closeAllSharePopups() {
-				document.querySelectorAll( '.exp-share-popup' ).forEach( popup => {
-					popup.classList.add( 'hide' );
-				});
-
-				document.querySelectorAll( '.buntywp-exp-media-container' ).forEach( container => {
-					let context = JSON.parse(container.dataset.wpContext);
-					context.isShareOpen = false;
-					// container.dataset.wpContext = JSON.stringify(context);
-					container.setAttribute('data-wp-context', JSON.stringify(context));
-					console.log(JSON.stringify(context));
-				});
-			}
-
-			const shareButtons = document.querySelectorAll( '.exp-media-share-button' );
-
-			// shareButtons.forEach( button => {
-
-			// 	button.addEventListener( 'click', function( event ) {
-			// 		const container = this.closest( '.buntywp-exp-media-container' );
-			// 		const popup     = container.querySelector( '.exp-share-popup' );
-			// 		const isHidden  = popup.classList.contains( 'hide' );
-
-			// 		closeAllSharePopups();
-
-			// 		if ( isHidden ) {
-			// 			popup.classList.remove( 'hide' );
-			// 		}
-
-			// 		event.stopPropagation();
-			// 	});
-			// });
-
-			document.addEventListener( 'click', function( event ) {
-
-				const isOutsideShareElements = ! event.target.closest( '.exp-media-share-button' ) && ! event.target.closest( '.exp-share-popup' );
-				if ( isOutsideShareElements ) {
-					closeAllSharePopups();
-				}
-			});
-		});
-	</script>
-	<?php
-}
-
-// add_action( 'wp_footer', 'btwp_exp_media_footer_script' );

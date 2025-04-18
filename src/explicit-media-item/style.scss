@@ -179,10 +179,11 @@
 		cursor: pointer;
 		padding: 0.25rem;
 		transition: transform 0.2s;
-	}
+		outline: none;
 
-	.exp-share-option:hover {
-		transform: scale(1.1);
+		&:hover {
+			transform: scale(1.1);
+		}
 	}
 
 	.hide {
