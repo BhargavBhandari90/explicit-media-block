@@ -8,6 +8,7 @@
 		margin-bottom: 8px;
 
 		.upload-button {
+
 			&.centered {
 				position: absolute;
 				top: 50%;
@@ -26,6 +27,7 @@
 		}
 
 		&:hover {
+
 			.hover-visible {
 				opacity: 1;
 				z-index: 1;
@@ -87,6 +89,7 @@
 	}
 
 	&.has-border {
+
 		.image-container figure {
 			border-style: solid;
 		}
@@ -94,6 +97,7 @@
 }
 
 @keyframes heartScale {
+
 	0% {
 		transform: scale(1);
 	}
@@ -108,6 +112,7 @@
 }
 
 @keyframes heartBurst {
+
 	0% {
 		transform: scale(0);
 	}
@@ -121,15 +126,8 @@
 	}
 }
 
-.exp-media-like-button.twitter-animation .heart-icon {
-	animation: heartScale 0.3s forwards;
-}
-
-.exp-media-like-button.twitter-animation.liked .heart-icon {
-	animation: heartBurst 0.4s forwards;
-}
-
 .block-editor-block-list__block .buntywp-exp-media-container {
+
 	.image-container {
 		min-height: 100px;
 		background-color: #f7f7f7;

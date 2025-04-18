@@ -99,8 +99,6 @@ const { state } = store( 'buntywp/explicit-media', {
 
 /**
  * Save the Context to the server via AJAX.
- *
- * @param {object} context Block Context.
  */
 function saveContextToServer( context ) {
 	fetch( state.ajaxUrl, {
@@ -125,9 +123,6 @@ function saveContextToServer( context ) {
 
 /**
  * Format a number for display.
- *
- * @param {integer} num Number to format.
- * @returns {string} Formatted number.
  */
 function expMediaFormatNumber( num ) {
 	if ( num < 1000 ) {

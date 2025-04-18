@@ -64,11 +64,6 @@ return array(
 		'supports' => array(
 			'interactivity' => true,
 			'html' => false,
-			'color' => array(
-				'background' => true,
-				'text' => true,
-				'heading' => true
-			),
 			'shadow' => true,
 			'spacing' => array(
 				'margin' => true,

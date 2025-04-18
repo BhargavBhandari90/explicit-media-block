@@ -163,7 +163,7 @@
 		top: 100%; /* position under share button */
 		right: 0;
 		margin-top: 0.5rem;
-		background: white;
+		background: #fff;
 		border: 1px solid #ddd;
 		border-radius: 8px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -208,6 +208,7 @@
 }
 
 @keyframes heartScale {
+
 	0% {
 		transform: scale(1);
 	}
@@ -222,6 +223,7 @@
 }
 
 @keyframes heartBurst {
+
 	0% {
 		transform: scale(0);
 	}
@@ -232,34 +234,5 @@
 
 	100% {
 		transform: scale(1);
-	}
-}
-
-.exp-media-like-button.twitter-animation .heart-icon {
-	animation: heartScale 0.3s forwards;
-}
-
-.exp-media-like-button.twitter-animation.liked .heart-icon {
-	animation: heartBurst 0.4s forwards;
-}
-
-.heart-particle {
-	position: absolute;
-	background: #e0245e;
-	border-radius: 50%;
-	pointer-events: none;
-	z-index: 0;
-	opacity: 0;
-}
-
-@keyframes particleFadeOut {
-	0% {
-		opacity: 0.8;
-		transform: translate(0, 0) scale(1);
-	}
-
-	100% {
-		opacity: 0;
-		transform: translate(var(--tx), var(--ty)) scale(0);
 	}
 }
