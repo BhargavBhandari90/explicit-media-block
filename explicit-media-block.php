@@ -150,27 +150,34 @@ function btwp_exp_media_footer_script() {
 				document.querySelectorAll( '.exp-share-popup' ).forEach( popup => {
 					popup.classList.add( 'hide' );
 				});
+
+				document.querySelectorAll( '.buntywp-exp-media-container' ).forEach( container => {
+					let context = JSON.parse(container.dataset.wpContext);
+					context.isShareOpen = false;
+					// container.dataset.wpContext = JSON.stringify(context);
+					container.setAttribute('data-wp-context', JSON.stringify(context));
+					console.log(JSON.stringify(context));
+				});
 			}
 
 			const shareButtons = document.querySelectorAll( '.exp-media-share-button' );
 
-			shareButtons.forEach( button => {
+			// shareButtons.forEach( button => {
 
-				button.addEventListener( 'click', function( event ) {
-					const container = this.closest( '.buntywp-exp-media-container' );
-					const popup     = container.querySelector( '.exp-share-popup' );
-					const isHidden  = popup.classList.contains( 'hide' );
+			// 	button.addEventListener( 'click', function( event ) {
+			// 		const container = this.closest( '.buntywp-exp-media-container' );
+			// 		const popup     = container.querySelector( '.exp-share-popup' );
+			// 		const isHidden  = popup.classList.contains( 'hide' );
 
-					closeAllSharePopups();
+			// 		closeAllSharePopups();
 
-					// Then open this one if it was previously closed.
-					if ( isHidden ) {
-						popup.classList.remove( 'hide' );
-					}
+			// 		if ( isHidden ) {
+			// 			popup.classList.remove( 'hide' );
+			// 		}
 
-					event.stopPropagation();
-				});
-			});
+			// 		event.stopPropagation();
+			// 	});
+			// });
 
 			document.addEventListener( 'click', function( event ) {
 
@@ -184,4 +191,4 @@ function btwp_exp_media_footer_script() {
 	<?php
 }
 
-add_action( 'wp_footer', 'btwp_exp_media_footer_script' );
+// add_action( 'wp_footer', 'btwp_exp_media_footer_script' );

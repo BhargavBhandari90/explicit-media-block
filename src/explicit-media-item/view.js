@@ -1,9 +1,10 @@
-import { store, getContext, withScope } from '@wordpress/interactivity';
+import { store, getContext } from '@wordpress/interactivity';
 
 const { state } = store( 'buntywp/explicit-media', {
 	isOpen: false,
 	isMediaShared: false,
 	imageSrc: '',
+	Copied: false,
 	state: {
 		get isMediaLiked() {
 			const context = getContext();
@@ -21,6 +22,22 @@ const { state } = store( 'buntywp/explicit-media', {
 
 		get expIsPopupOpen() {
 			return state.isOpen;
+		},
+
+		get expTwitterShareURL() {
+			const context = getContext();
+			const sharelink =
+				'https://x.com/intent/post?url=' +
+				encodeURIComponent( context.expShareUrl );
+			return sharelink;
+		},
+
+		get expFBShareURL() {
+			const context = getContext();
+			const sharelink =
+				'https://www.facebook.com/sharer/sharer.php?u=' +
+				encodeURIComponent( context.expShareUrl );
+			return sharelink;
 		},
 	},
 	actions: {
@@ -49,12 +66,31 @@ const { state } = store( 'buntywp/explicit-media', {
 			const context = getContext();
 			context.isShareOpen = ! context.isShareOpen;
 		},
+
+		expCopyLink: () => {
+			const context = getContext();
+			const linkToCopy = context.expShareUrl;
+			navigator.clipboard.writeText( linkToCopy );
+			state.Copied = true;
+			setTimeout( () => {
+				state.Copied = false;
+			}, 2000 );
+		},
 	},
 	callbacks: {
 		expSetupLightbox: () => {
 			window.addEventListener( 'keydown', ( event ) => {
 				if ( 'Escape' === event.key ) {
 					store( 'buntywp/explicit-media' ).actions.expHideLightbox();
+				}
+			} );
+
+			window.addEventListener( 'click', function ( event ) {
+				const isOutsideShareElements =
+					! event.target.closest( '.exp-media-share-button' ) &&
+					! event.target.closest( '.exp-share-popup' );
+				if ( isOutsideShareElements ) {
+					closeAllSharePopups();
 				}
 			} );
 		},
@@ -101,4 +137,10 @@ function expMediaFormatNumber( num ) {
 	} else {
 		return ( num / 1000000 ).toFixed( 1 ) + 'M';
 	}
+}
+
+function closeAllSharePopups() {
+	document.querySelectorAll( '.exp-share-popup' ).forEach( ( popup ) => {
+		popup.classList.add( 'hide' );
+	} );
 }
