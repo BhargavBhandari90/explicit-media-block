@@ -19,7 +19,7 @@ A WordPress block for uploading images and videos with public likes and shareabl
 
 1. Upload the plugin files to the `/wp-content/plugins/explicit-media-block` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Add/Edit post pr plugin and search "Explicit Media" while searching a block
+3. Add/Edit post and search for "Explicit Media" block
 
 ## Demo
 Coming Soon
