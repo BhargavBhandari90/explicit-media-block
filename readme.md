@@ -22,7 +22,9 @@ A WordPress block for uploading images and videos with public likes and shareabl
 3. Add/Edit post and search for "Explicit Media" block
 
 ## Demo
-Coming Soon
+https://github.com/user-attachments/assets/40b283ea-e808-44cb-8be9-d0cfd72217e8
+
+
 
 ## Prerequisites
 - [Node/NPM](https://nodejs.org/en/download/)
