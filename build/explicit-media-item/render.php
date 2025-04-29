@@ -109,13 +109,19 @@ $context['expShareUrl'] = trailingslashit( get_permalink( $post->ID ) ) . '#' . 
 		switch ( $attributes['mediaType'] ) {
 			case 'image':
 				$srcset = wp_get_attachment_image_srcset( $attributes['mediaId'] );
-				echo wp_sprintf(
-					'<img src="%1$s" class="uploaded-media %4$s" loading="lazy" srcset="%2$s" style="%3$s" sizes="%5$s" data-wp-on-async--click="actions.expShowLightbox" />',
-					esc_url( $attributes['mediaUrl'] ),
-					esc_attr( $srcset ),
-					esc_attr( $border_inline_style ),
-					esc_attr( $duotone_filter ),
-					esc_attr( wp_calculate_image_sizes( 'full', '', '', $attributes['mediaId'] ) )
+				echo wp_get_attachment_image(
+					$attributes['mediaId'],
+					'full',
+					true,
+					array(
+						'src'                     => esc_url( $attributes['mediaUrl'] ),
+						'class'                   => 'uploaded-media ' . esc_attr( $duotone_filter ),
+						'loading'                 => 'lazy',
+						'srcset'                  => esc_attr( $srcset ),
+						'style'                   => esc_attr( $border_inline_style ),
+						'sizes'                   => esc_attr( wp_calculate_image_sizes( 'full', '', '', $attributes['mediaId'] ) ),
+						'data-wp-on-async--click' => 'actions.expShowLightbox',
+					),
 				);
 
 				?>
@@ -123,7 +129,7 @@ $context['expShareUrl'] = trailingslashit( get_permalink( $post->ID ) ) . '#' . 
 					class="exp-media-lightbox-trigger"
 					type="button"
 					aria-haspopup="dialog"
-					aria-label="<?php echo esc_html__( 'Enlarge' ); ?>"
+					aria-label="<?php echo esc_html__( 'Enlarge', 'explicit-media-block' ); ?>"
 					data-wp-on-async--click="actions.expShowLightbox"
 				>
 					<svg
@@ -239,10 +245,20 @@ $context['expShareUrl'] = trailingslashit( get_permalink( $post->ID ) ) . '#' . 
 
 		<div class="exp-media-lightbox" data-wp-class--hide="!state.expIsPopupOpen">
 			<div class="exp-media-item full-width">
-				<img data-wp-bind--src="state.expImageSrc" />
+				<?php
+				echo wp_get_attachment_image(
+					0,
+					'full',
+					true,
+					array(
+						'data-wp-bind--src' => 'state.expImageSrc',
+						'class'             => 'exp-media-image-preview',
+					),
+				);
+				?>
 				<button
 					type="button"
-					aria-label="<?php echo __( 'Press ESC to Cloese' ); ?>"
+					aria-label="<?php echo esc_html__( 'Press ESC to Cloese', 'explicit-media-block' ); ?>"
 					class="exp-media-remove-popup"
 					data-wp-on-async--click="actions.expHideLightbox"
 				>
