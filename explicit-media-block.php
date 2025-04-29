@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Explicit Media Block
- * Description:       Add likeable, shareable media to your site with this social-style WordPress block.
+ * Description:       Add likeable, shareable image and video to your site with this WordPress block.
  * Version:           1.0.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
@@ -70,7 +70,7 @@ function btwp_exp_media_handle_likes() {
 	if ( ! is_user_logged_in() ) {
 		wp_send_json_error(
 			array(
-				'message' => esc_html__( 'You must be logged in to vote', 'polls-block' ),
+				'message' => esc_html__( 'You must be logged in.', 'explicit-media-block' ),
 			),
 			403
 		);
@@ -80,7 +80,7 @@ function btwp_exp_media_handle_likes() {
 	if ( empty( $_POST['context'] ) ) {
 		wp_send_json_error(
 			array(
-				'message' => esc_html__( 'Something went wrong. Try again later.', 'polls-block' ),
+				'message' => esc_html__( 'Something went wrong. Try again later.', 'explicit-media-block' ),
 			)
 		);
 	}
@@ -98,7 +98,7 @@ function btwp_exp_media_handle_likes() {
 
 	wp_send_json_success(
 		array(
-			'message' => esc_html__( 'Vote recorded successfully', 'polls-block' ),
+			'message' => esc_html__( 'Vote recorded successfully', 'explicit-media-block' ),
 		)
 	);
 }
