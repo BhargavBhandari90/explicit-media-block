@@ -15,6 +15,8 @@ Add likeable, shareable image and video to your site with this WordPress block.
 
 A WordPress block for uploading images and videos with public likes and shareable links, turning your site into an interactive content hub.
 
+https://www.youtube.com/watch?v=BeqRrV4CJ4Q
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/explicit-media-block` directory, or install the plugin through the WordPress plugins screen directly.
