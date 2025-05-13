@@ -48,6 +48,34 @@
 				opacity: 1;
 				transition: opacity 0.2s ease;
 			}
+
+			&:hover {
+
+				.pip-button {
+					display: block;
+				}
+			}
+
+			.pip-button {
+				display: none;
+				position: absolute;
+				top: 1rem;
+				right: 1rem;
+				z-index: 99;
+				border: none;
+    			background: transparent;
+				cursor: pointer;
+				outline: none;
+				border-radius: 50%;
+				height: 30px;
+				width: 30px;
+				padding: 0;
+
+				&:hover {
+					background-color: rgba(0, 0, 0, 0.05);
+					transform: scale(1.1);
+				}
+			}
 		}
 	}
 

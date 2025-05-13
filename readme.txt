@@ -4,7 +4,7 @@ Donate link:       https://www.paypal.me/BnB90/20
 Tags:              block, media, likes, share, blocks
 Requires at least: 6.6
 Tested up to:      6.8
-Stable tag:        1.0.0
+Stable tag:        1.0.1
 License:           GPL-2.0-or-later
 Requires PHP:      7.4
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,9 @@ https://www.youtube.com/watch?v=BeqRrV4CJ4Q
 [https://github.com/BhargavBhandari90/explicit-media-block/](https://github.com/BhargavBhandari90/explicit-media-block/)
 
 == Changelog ==
+
+= 1.0.1 =
+* Picture in Picture button on hover of video.
 
 = 1.0.0 =
 * Initial Release.

@@ -94,6 +94,20 @@ const { state } = store( 'buntywp/explicit-media', {
 				}
 			} );
 		},
+
+		expDisplayPiP: ( event ) => {
+			const video = event.currentTarget
+				?.closest( '.image-container' )
+				?.querySelector( 'video' );
+
+			if ( video && document.pictureInPictureEnabled ) {
+				if ( document.pictureInPictureElement ) {
+					document.exitPictureInPicture().catch( console.error );
+				} else {
+					video.requestPictureInPicture().catch( console.error );
+				}
+			}
+		},
 	},
 } );
 
