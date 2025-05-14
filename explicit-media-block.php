@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Explicit Media Block
  * Description:       Add likeable, shareable image and video to your site with this WordPress block.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            BuntyWP
