@@ -12,11 +12,22 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start --blocks-manifest --experimental-modules"
+		"start": "wp-scripts start --blocks-manifest --experimental-modules",
+		"env": "wp-env",
+		"env:start": "wp-env start",
+		"env:clean": "wp-env clean",
+		"env:stop": "wp-env stop",
+		"env:destroy": "wp-env destroy",
+		"postenv:start": "bash ./tests/e2e/bin/initialize.sh",
+		"test:e2e": "npx playwright test --config tests/e2e/playwright.config.js"
 	},
 	"devDependencies": {
 		"@wordpress/icons": "^10.23.0",
-		"@wordpress/scripts": "^30.14.1"
+		"@wordpress/scripts": "^30.14.1",
+		"@babel/runtime": "^7.27.1",
+		"@playwright/test": "^1.52.0",
+		"@woocommerce/e2e-utils-playwright": "^0.3.1",
+		"@wordpress/env": "^10.23.0"
 	},
 	"dependencies": {
 		"@wordpress/interactivity": "^6.21.0"
