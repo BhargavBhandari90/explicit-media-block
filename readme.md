@@ -8,7 +8,7 @@
 **Tags:** block, media, likes, share, blocks  
 **Requires at least:** 6.6  
 **Tested up to:** 6.8  
-**Stable tag:** 1.0.1  
+**Stable tag:** 1.0.2  
 **Requires PHP:** 7.4  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
@@ -54,6 +54,9 @@ If you find a bug, report here
 [https://github.com/BhargavBhandari90/explicit-media-block/issues](https://github.com/BhargavBhandari90/explicit-media-block/issues)
 
 ## Changelog ##
+
+### 1.0.2 ###
+* Prevent liking by non-loggedin users.
 
 ### 1.0.1 ###
 * Picture in Picture button on hover of video.
