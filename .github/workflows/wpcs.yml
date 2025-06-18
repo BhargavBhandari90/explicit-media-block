@@ -2,7 +2,7 @@ name: WPCS
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   wpcs:
