@@ -1,5 +1,10 @@
 {
     "name": "bhargav/explicit-media-block",
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
     "authors": [
         {
             "name": "Bunty",
