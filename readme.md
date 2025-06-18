@@ -1,4 +1,7 @@
 # Explicit Media Block #
+
+[![Lint JS](https://github.com/BhargavBhandari90/explicit-media-block/actions/workflows/lint-js.yml/badge.svg)](https://github.com/BhargavBhandari90/explicit-media-block/actions/workflows/lint-js.yml)
+
 **Contributors:** [bhargavbhandari90](https://profiles.wordpress.org/bhargavbhandari90/)  
 **Donate link:** https://www.paypal.me/BnB90/20  
 **Tags:** block, media, likes, share, blocks  
