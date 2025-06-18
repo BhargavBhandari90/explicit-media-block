@@ -98,8 +98,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								className="uploaded-media"
 								loading="lazy"
 								style={ {
-									borderWidth: borderWidth,
-									borderRadius: borderRadius,
+									borderWidth,
+									borderRadius,
 									objectFit: scale,
 								} }
 							/>

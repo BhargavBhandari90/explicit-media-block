@@ -14,8 +14,10 @@ global $post;
 wp_interactivity_state(
 	'buntywp/explicit-media',
 	array(
-		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-		'nonce'   => wp_create_nonce( 'btwp_exp_media_nonce' ),
+		'ajaxUrl'          => admin_url( 'admin-ajax.php' ),
+		'nonce'            => wp_create_nonce( 'btwp_exp_media_nonce' ),
+		'userLoggedIn'     => is_user_logged_in(),
+		'showLoginMessage' => false,
 	)
 );
 
@@ -275,7 +277,8 @@ $context['expShareUrl'] = trailingslashit( get_permalink( $post->ID ) ) . '#' . 
 				</button>
 			</div>
 		</div>
-		<div class="copied-toast" data-wp-class--copied="state.Copied" data-wp-class--hide="!state.Copied">Link copied to clipboard!</div>
+		<div class="exp-media-toast" data-wp-class--copied="state.Copied" data-wp-class--hide="!state.Copied">Link copied to clipboard!</div>
+		<div class="exp-media-toast" data-wp-class--hide="!state.showLoginMessage">Please Login to Like this.</div>
 		<?php
 
 	} else {

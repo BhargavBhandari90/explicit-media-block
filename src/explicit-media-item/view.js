@@ -1,3 +1,4 @@
+/* global navigator */
 import { store, getContext } from '@wordpress/interactivity';
 
 const { state } = store( 'buntywp/explicit-media', {
@@ -42,7 +43,16 @@ const { state } = store( 'buntywp/explicit-media', {
 	},
 	actions: {
 		expToggleLike: () => {
+			if ( ! state.userLoggedIn ) {
+				state.showLoginMessage = true;
+				setTimeout( () => {
+					state.showLoginMessage = false;
+				}, 2000 );
+				return;
+			}
+
 			const context = getContext();
+
 			context.liked = context.liked ? false : true;
 			context.likeCount = context.liked
 				? Number( context.likeCount + 1 )
@@ -102,8 +112,10 @@ const { state } = store( 'buntywp/explicit-media', {
 
 			if ( video && document.pictureInPictureEnabled ) {
 				if ( document.pictureInPictureElement ) {
+					// eslint-disable-next-line no-console
 					document.exitPictureInPicture().catch( console.error );
 				} else {
+					// eslint-disable-next-line no-console
 					video.requestPictureInPicture().catch( console.error );
 				}
 			}
@@ -113,6 +125,8 @@ const { state } = store( 'buntywp/explicit-media', {
 
 /**
  * Save the Context to the server via AJAX.
+ *
+ * @param {Object} context Block Context.
  */
 function saveContextToServer( context ) {
 	fetch( state.ajaxUrl, {
@@ -127,25 +141,27 @@ function saveContextToServer( context ) {
 		} ),
 	} )
 		.then( ( response ) => response.json() )
-		.then( ( data ) => {
-			console.log( 'Like saved:', data );
+		.then( () => {
+			// Data saved.
 		} )
 		.catch( ( error ) => {
+			// eslint-disable-next-line no-console
 			console.error( 'Error saving Like:', error );
 		} );
 }
 
 /**
  * Format a number for display.
+ *
+ * @param {num} num Number.
  */
 function expMediaFormatNumber( num ) {
 	if ( num < 1000 ) {
 		return num.toString();
 	} else if ( num < 1000000 ) {
 		return ( num / 1000 ).toFixed( 1 ) + 'K';
-	} else {
-		return ( num / 1000000 ).toFixed( 1 ) + 'M';
 	}
+	return ( num / 1000000 ).toFixed( 1 ) + 'M';
 }
 
 function closeAllSharePopups() {
